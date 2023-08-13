@@ -2,3 +2,9 @@ steps:
   - name: maven:3.9.3-amazoncorretto-17
     entrypoint: mvn
     args: ['package','-Dmaven.test.skip=true']
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/vpc-demo-395212/spring-security:$COMMIT_SHA', '.' ]
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/vpc-demo-395212/spring-security:$COMMIT_SHA' ]
