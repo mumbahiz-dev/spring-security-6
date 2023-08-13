@@ -2,6 +2,9 @@ steps:
 - name: maven:3.9.3-amazoncorretto-17
   entrypoint: mvn
   args: ['package','-Dmaven.test.skip=true']
-- name: gcr.io/cloud-builders/docker
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/vpc-demo-395212/spring-security/sc-image', '--build-arg=JAR_FILE=target/spring-security-6.jar', '.']
-images: ['us-central1-docker.pkg.dev/vpc-demo-395212/spring-security/sc-image']
+  # Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/vpc-demo-395212/spring-security-6', '.']
+  # Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'push', 'gcr.io/vpc-demo-395212/spring-security-6' ]
