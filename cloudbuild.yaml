@@ -1,0 +1,4 @@
+steps:
+  - name: maven:3.9.3-amazoncorretto-17
+    entrypoint: mvn
+    args: ['package','-Dmaven.test.skip=true']ddocdidd
