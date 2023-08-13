@@ -8,3 +8,7 @@ steps:
   # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'push', 'gcr.io/vpc-demo-395212/spring-security-6' ]
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: [ 'run', 'deploy', 'spring-security-service', '--image', 'gcr.io/vpc-demo-395212/spring-security-6', '--region', 'REGION' ]
