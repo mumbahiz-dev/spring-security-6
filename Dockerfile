@@ -1,4 +1,5 @@
 FROM openjdk:17-jdk-alpine
+WORKDIR /target
 ARG JAR_FILE=target/
-COPY ${JAR_FILE} spring-security-6.jar
-ENTRYPOINT ["java", "-jar", "/spring-security-6.jar"]
+COPY spring-security-6.jar ${JAR_FILE}
+ENTRYPOINT ["java", "-jar", "target/spring-security-6.jar"]
