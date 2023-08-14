@@ -11,4 +11,13 @@ steps:
 # Deploy container image to Cloud Run
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: [ 'run', 'deploy', 'spring-security-service', '--image', 'gcr.io/vpc-demo-395212/spring-security-6', '--region', 'us-central1' ]
+  args:
+    - 'run'
+    - 'deploy'
+    - 'spring-security-service'
+    - '--image'
+    - 'gcr.io/vpc-demo-395212/spring-security-6'
+    - '--region'
+    - 'us-central1'
+images:
+  - 'gcr.io/vpc-demo-395212/spring-security-6'
