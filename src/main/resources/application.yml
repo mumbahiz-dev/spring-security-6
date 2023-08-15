@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://jwt-security:5432/spring-security
+    url: jdbc:postgresql://34.69.102.168:5432/spring-security
     username: mumbahiz
     password: mumbahiz123
     driver-class-name: org.postgresql.Driver
