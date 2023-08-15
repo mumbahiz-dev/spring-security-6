@@ -10,7 +10,7 @@ spring:
         cloudSqlInstance: vpc-demo-395212:us-central1:spring-security
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
