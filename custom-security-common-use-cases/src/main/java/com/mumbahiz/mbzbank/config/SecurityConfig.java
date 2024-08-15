@@ -1,5 +1,6 @@
 package com.mumbahiz.mbzbank.config;
 
+import com.mumbahiz.mbzbank.exceptionhandling.CustomAccessDeniedHandler;
 import com.mumbahiz.mbzbank.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,10 @@ public class SecurityConfig {
         );
         http.formLogin(withDefaults());
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
-        // It is a Global config
-        // http.exceptionHandling(ehc -> ehc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(ehc -> ehc
+                .accessDeniedHandler(new CustomAccessDeniedHandler())
+                //.accessDeniedPage("/denied") // use it when create UI / application using Spring MVC
+        );
         return http.build();
     }
 
