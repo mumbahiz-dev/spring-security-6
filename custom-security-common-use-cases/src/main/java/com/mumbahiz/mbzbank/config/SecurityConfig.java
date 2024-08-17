@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,7 +22,9 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession") //Need to create real page for this url
+        http.sessionManagement(smc -> smc
+                        .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession)
+                        .invalidSessionUrl("/invalidsession") //Need to create real page for this url
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true) // can't create second session
                         .expiredUrl("/expiredurl"))
