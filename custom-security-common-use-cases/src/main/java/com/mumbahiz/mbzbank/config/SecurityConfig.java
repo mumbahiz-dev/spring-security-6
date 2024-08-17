@@ -21,11 +21,14 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession")) //Need to create real page for this url
+        http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession") //Need to create real page for this url
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true) // can't create second session
+                        .expiredUrl("/expiredurl"))
                 .requiresChannel(rcc-> rcc.anyRequest().requiresInsecure()) //Only HTTP
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((requests) ->
                 requests.requestMatchers("/my-account", "my-balance", "my-loans", "my-cards").authenticated()
-                        .requestMatchers("/notices", "/contact", "/error", "/register","/invalidsession").permitAll()
+                        .requestMatchers("/notices", "/contact", "/error", "/register","/invalidsession","/expiredurl").permitAll()
 
         );
         http.formLogin(withDefaults());
