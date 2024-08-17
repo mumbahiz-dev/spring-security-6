@@ -21,10 +21,11 @@ public class ProdSecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.requiresChannel(rcc-> rcc.anyRequest().requiresSecure()) // Only HTTPS
+        http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession")) // Need to create real page for this url
+                .requiresChannel(rcc-> rcc.anyRequest().requiresSecure()) // Only HTTPS
                 .csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests((requests) ->
                 requests.requestMatchers("/my-account", "my-balance", "my-loans", "my-cards").authenticated()
-                        .requestMatchers("/notices", "/contact", "/error", "/register").permitAll()
+                        .requestMatchers("/notices", "/contact", "/error", "/register", "/invalidsession").permitAll()
 
         );
         http.formLogin(withDefaults());
@@ -35,11 +36,6 @@ public class ProdSecurityConfig {
         );
         return http.build();
     }
-
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource){
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
