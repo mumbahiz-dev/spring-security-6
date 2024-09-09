@@ -3,6 +3,7 @@ package com.mumbahiz.config;
 import com.mumbahiz.exceptionhandling.CustomAccessDeniedHandler;
 import com.mumbahiz.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import com.mumbahiz.filter.AuthoritiesLoggingAfterFilter;
+import com.mumbahiz.filter.AuthoritiesLoggingAtFilter;
 import com.mumbahiz.filter.CsrfCookieFilter;
 import com.mumbahiz.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,12 +51,9 @@ public class ProjectSecurityConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
+                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP
                 .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
-//                        .requestMatchers("/myBalance").hasAnyAuthority("VIEWBALANCE","VIEWACCOUNT")
-//                        .requestMatchers("/myLoans").hasAuthority("VIEWLOANS")
-//                        .requestMatchers("/myCards").hasAuthority("VIEWCARDS")
                         .requestMatchers("/myAccount").hasRole("USER")
                         .requestMatchers("/myBalance").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/myLoans").hasRole("USER")
