@@ -3,6 +3,7 @@ package com.mumbahiz.config;
 import com.mumbahiz.exceptionhandling.CustomAccessDeniedHandler;
 import com.mumbahiz.exceptionhandling.CustomBasicAuthenticationEntryPoint;
 import com.mumbahiz.filter.CsrfCookieFilter;
+import com.mumbahiz.filter.RequestValidationBeforeFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,7 @@ public class ProjectSecurityConfig {
                         .ignoringRequestMatchers( "/contact","/register")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
                 .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // Only HTTP
                 .authorizeHttpRequests((requests) -> requests
 //                        .requestMatchers("/myAccount").hasAuthority("VIEWACCOUNT")
